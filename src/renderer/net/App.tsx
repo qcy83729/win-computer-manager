@@ -4,9 +4,14 @@ import electronLogo from './assets/electron.svg'
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
+  const openNetWin = (): void => {
+    window.electron.ipcRenderer.send('open_net_circle_win')
+  }
+
   return (
     <>
       <img alt="logo" className="logo" src={electronLogo} />
+      <div>网络进程</div>
       <div className="creator">Powered by electron-vite</div>
       <div className="text">
         Build an Electron app with <span className="react">React</span>
@@ -24,6 +29,11 @@ function App(): JSX.Element {
         <div className="action">
           <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
             Send IPC
+          </a>
+        </div>
+        <div className="action">
+          <a target="_blank" rel="noreferrer" onClick={openNetWin}>
+            打开网络窗口
           </a>
         </div>
       </div>
