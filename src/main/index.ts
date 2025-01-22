@@ -8,7 +8,7 @@ import { Ipc } from './ipc'
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.net.manage')
+  electronApp.setAppUserModelId('com.computer.manage')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
