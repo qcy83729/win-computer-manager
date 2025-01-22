@@ -1,9 +1,14 @@
-import { ipcMain } from 'electron'
+import { ipcMain, BrowserWindow } from 'electron'
 import WindowManage from './window-manage'
+import { CustomMove } from './custom-move'
 
 export class Ipc {
   private static instance: Ipc | null = null
+  private static isCallListen = false
   static listen(): Ipc {
+    if (Ipc.isCallListen) return
+    Ipc.isCallListen = true
+
     if (!Ipc.instance) {
       Ipc.instance = new Ipc()
     }
@@ -20,7 +25,25 @@ export class Ipc {
 
   openNetCirCleWin(): void {
     ipcMain.on('open_net_circle_win', () => {
-      WindowManage.createNetCircleWin()
+      WindowManage.createNetWin()
+    })
+  }
+
+  setIgnoreMouseEvents(): void {
+    ipcMain.on('set_ignore_mouse_events', (event, ignore, options) => {
+      // 从sender中拿到BrowserWindow
+      const win = BrowserWindow.fromWebContents(event.sender)
+      win.setIgnoreMouseEvents(ignore, options)
+    })
+  }
+
+  winMove(): void {
+    ipcMain.on('move_start', (event) => {
+      const customMove = new CustomMove()
+      customMove.moveStart(BrowserWindow.fromWebContents(event.sender))
+      ipcMain.on('move_end', () => {
+        customMove.end()
+      })
     })
   }
 }

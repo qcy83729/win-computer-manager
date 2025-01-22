@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 
-type Key = 'main' | 'net_circle'
+type Key = 'main' | 'net'
 
 class WindowManage {
   private winMap: Record<Key, BrowserWindow> = {} as Record<Key, BrowserWindow>
@@ -45,22 +45,24 @@ class WindowManage {
     return this.winMap.main
   }
 
-  createNetCircleWin(): BrowserWindow {
-    this.winMap.net_circle = new BrowserWindow({
-      width: 900,
-      height: 670,
-      show: false,
-      autoHideMenuBar: true,
+  createNetWin(): BrowserWindow {
+    this.winMap.net = new BrowserWindow({
+      width: 200,
+      height: 200,
+      transparent: true,
+      frame: false,
+      resizable: false,
+      maximizable: false,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
         sandbox: false
       }
     })
 
-    this.loadUrl(this.winMap.net_circle, 'net-circle.html')
-    this.showAndClose(this.winMap.net_circle, 'net_circle')
+    this.loadUrl(this.winMap.net, 'net.html')
+    this.showAndClose(this.winMap.net, 'net')
 
-    return this.winMap.net_circle
+    return this.winMap.net
   }
 
   getWin(key: Key): BrowserWindow | null {

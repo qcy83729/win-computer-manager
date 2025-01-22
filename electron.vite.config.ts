@@ -12,7 +12,8 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src')
+        '@main': resolve('src/renderer/main'),
+        '@net': resolve('src/renderer/net')
       }
     },
     plugins: [react()]
