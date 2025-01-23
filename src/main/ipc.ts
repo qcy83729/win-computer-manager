@@ -22,9 +22,7 @@ export class Ipc {
   }
 
   openNetCirCleWin(): void {
-    console.log('已启动')
     ipcMain.on('open_net_circle_win', () => {
-      console.log('监听到了')
       WindowManage.createNetWin()
     })
   }

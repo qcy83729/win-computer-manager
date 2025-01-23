@@ -66,7 +66,7 @@ class WindowManage {
       frame: false,
       resizable: false,
       maximizable: false,
-      show: true,
+      show: false,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
         sandbox: false
