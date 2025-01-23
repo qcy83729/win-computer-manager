@@ -10,8 +10,7 @@ class WindowManage {
   private showAndClose(win: BrowserWindow, key: Key): void {
     win.on('closed', () => {
       delete this.winMap[key]
-      win = null
-      key = null
+      win = null as never
     })
 
     win.on('ready-to-show', () => {
@@ -27,7 +26,16 @@ class WindowManage {
     }
   }
 
+  private checkWinExit(key: Key): boolean {
+    return Object.hasOwnProperty.call(this.winMap, key)
+  }
+
   createMainWindow(): BrowserWindow {
+    if (this.checkWinExit('main')) {
+      this.winMap.main.show()
+      this.winMap.main.focus()
+      return this.winMap.main
+    }
     this.winMap.main = new BrowserWindow({
       width: 900,
       height: 670,
@@ -46,6 +54,11 @@ class WindowManage {
   }
 
   createNetWin(): BrowserWindow {
+    if (this.checkWinExit('net')) {
+      this.winMap.net.show()
+      this.winMap.net.focus()
+      return this.winMap.net
+    }
     this.winMap.net = new BrowserWindow({
       width: 200,
       height: 200,
@@ -53,6 +66,7 @@ class WindowManage {
       frame: false,
       resizable: false,
       maximizable: false,
+      show: true,
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
         sandbox: false

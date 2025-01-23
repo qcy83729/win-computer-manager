@@ -4,13 +4,11 @@ import { CustomMove } from './custom-move'
 
 export class Ipc {
   private static instance: Ipc | null = null
-  private static isCallListen = false
   static listen(): Ipc {
-    if (Ipc.isCallListen) return
-    Ipc.isCallListen = true
-
     if (!Ipc.instance) {
       Ipc.instance = new Ipc()
+    } else {
+      return Ipc.instance
     }
 
     // 自动监听
@@ -24,7 +22,9 @@ export class Ipc {
   }
 
   openNetCirCleWin(): void {
+    console.log('已启动')
     ipcMain.on('open_net_circle_win', () => {
+      console.log('监听到了')
       WindowManage.createNetWin()
     })
   }
@@ -33,14 +33,14 @@ export class Ipc {
     ipcMain.on('set_ignore_mouse_events', (event, ignore, options) => {
       // 从sender中拿到BrowserWindow
       const win = BrowserWindow.fromWebContents(event.sender)
-      win.setIgnoreMouseEvents(ignore, options)
+      win?.setIgnoreMouseEvents(ignore, options)
     })
   }
 
   winMove(): void {
     ipcMain.on('move_start', (event) => {
       const customMove = new CustomMove()
-      customMove.moveStart(BrowserWindow.fromWebContents(event.sender))
+      customMove.moveStart(BrowserWindow.fromWebContents(event.sender)!)
       ipcMain.on('move_end', () => {
         customMove.end()
       })

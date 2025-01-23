@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: win-net-manage
+productName: win-computer-manage
 directories:
   buildResources: build
 files:
@@ -12,12 +12,13 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: win-net-manage
+  executableName: win-computer-manage
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  oneClick: false
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:

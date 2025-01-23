@@ -1,5 +1,6 @@
 function App(): JSX.Element {
   const openNetWin = (): void => {
+    console.log('我尼玛启动')
     window.electron.ipcRenderer.send('open_net_circle_win')
   }
 
